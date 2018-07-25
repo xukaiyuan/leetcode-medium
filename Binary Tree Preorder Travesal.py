@@ -11,4 +11,13 @@ class Solution:
         :type root: TreeNode
         :rtype: List[int]
         """
+        res = []
+        self.preorder(root, res)
+        return res
+    def preorder(self, root, res):
+        if(root == None):
+            return
+        res.append(root.val)
+        self.preorder(root.left, res)
+        self.preorder(root.right, res)
         
