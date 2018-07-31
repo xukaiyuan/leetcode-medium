@@ -1,3 +1,4 @@
+import functools
 class Solution:
     def largestNumber(self, nums):
         """
@@ -5,7 +6,15 @@ class Solution:
         :rtype: str
         """
         def compare(x, y):
-        	return x + y > y + x
+            if(x + y >= y + x):
+                return 1
+            else:
+                return -1
 
-        strs = map(str, nums)
-        print(strs)
+        result = "".join(sorted(map(str, nums), key=functools.cmp_to_key(compare), reverse = True))
+        if(result[0] == "0"):
+            return "0"
+        else:
+            return result
+        
+        
