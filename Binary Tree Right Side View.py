@@ -4,7 +4,7 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+import queue
 class Solution:
     def rightSideView(self, root):
         """
@@ -12,18 +12,24 @@ class Solution:
         :rtype: List[int]
         """
         res = []
-        if(root != None):
-        	res.append(root.val)
+        if(root == None):
+        	return res
+        q = queue.Queue()
+
+        q.put(root)
+
+        while(not q.empty()):
+        	length = q.qsize()
+        	right = False
+        	while(length > 0):
+        		tmp = q.get()
+        		if(right == False):
+        			right = True
+        			res.append(tmp.val)
+        		if(tmp.right != None):
+        			q.put(tmp.right)
+        		if(tmp.left != None):
+        			q.put(tmp.left)
+
+        		length -=1
         return res
-
-        def helper(res, root):
-        	if(root.left == None and root.right == None):
-        		return
-        	elif(root.right != None):
-        		root = root.right
-        		
-        	elif(root.left != None):
-        		root = root.left
-
-        	res.append(root.val)
-        	helper(res, root)
