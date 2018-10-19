@@ -1,23 +1,33 @@
-def maze(grid, start, end):
-	# grid: 2D matrix
-	# start: start [x1, y1]
-	# end: end [x2, y2]
+class solution:
+	def hasPath(self, maze, start, destination):
+		# maze: List[List[int]]
+		# start: List[int]
+		# end: List[int]
+		# rtype: boolean
+		if(len(maze) == 0 or len(maze[0]) == 0 or len(start) == 0 or len(destination) == 0):
+			return False
+		visited = [[0] * len(maze[0]) for _ in len(maze)]
 
-	visited = [[0] * len(grid) for _ in range(len(grid[0]))]
-	dfs(grid, start[0], start[1], end[0], end[1], visited)
-	return False
+		return self.dfs(maze, visited, start, destination)
 
-def dfs(grid, i, j, end_x, end_y, visited):
-	dir = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-	if(i < 0 or j < 0 or i > len(grid) - 1 or j > len(grid[0]) - 1 or grid[i][j] == 1 or visited[i][j]):
-		return
-	if(i == end_x and j == end_y):
-		return True
-	visited[i][j] == 1
-	for i in range(4):
-		dfs(grid, i + dir[i][0], j + dir[i][1], end_x, end_y, visited)
 
-grid = [[0, 0, 1, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 1 ,0], [1, 1, 0, 1, 1], [0, 0, 0, 0, 0]]
+	def dfs(self, maze, visited, start, destination):
+		if(start == destination):
+			return True
+		if(visited[start[0]][start[1]]):
+			return False
 
-res = maze(grid, [0, 4], [4, 4])
-print(res)
+		visited[start[0]][start[1]] = 1
+
+		direction = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+		for i in range(4):
+			next_x = start[0]
+			next_y = start[1]
+			while(next_x > -1 and next_x < len(maze) and next_y > -1 and next_y < len(maze[0]) and maze[next_x][next_y] == 0):
+				next_x += direction[i][0]
+				next_y += direction[i][1]
+			if(self.dfs(maze, visited, [next_x, next_y], destination)):
+				return True
+		return False
+		
