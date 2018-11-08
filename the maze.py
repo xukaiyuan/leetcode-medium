@@ -27,10 +27,65 @@ class solution:
 			while(next_x > -1 and next_x < len(maze) and next_y > -1 and next_y < len(maze[0]) and maze[next_x][next_y] == 0):
 				next_x += direction[i][0]
 				next_y += direction[i][1]
+            next_x -= direction[i][0]
+            next_y -= direction[i][1]
 			if(self.dfs(maze, visited, [next_x, next_y], destination)):
 				return True
 		return False
 
+import java.util.Arrays;
+public class Solution {
+    /**
+     * @param maze: the maze
+     * @param start: the start
+     * @param destination: the destination
+     * @return: whether the ball could stop at the destination
+     */
+    private int[][] visited;
+    private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {1, -1}};
+    private int row;
+    private int col;
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        // write your code here
+        if(maze.length == 0 || maze[0].length == 0 || start.length == 0 || destination.length == 0) {
+            return false;
+        }
+        row = maze.length;
+        col = maze[0].length;
+        visited = new int[row][col];
+        
+        return dfs(maze, start, destination);
+    }
+    
+    public boolean dfs(int[][] maze, int[] start, int[] destination) {
+        if(Arrays.equals(start, destination)) {
+            return true;
+        }
+
+        if(visited[start[0]][start[1]] == 1) {
+            return false;
+        }
+        visited[start[0]][start[1]] = 1;
+        for (int i = 0; i < 4; i++) {
+            int x = start[0];
+            int y = start[1];
+            while(x > -1 && x < row && y > -1 && y < col && maze[x][y] == 0) {
+                x += direction[i][0];
+                y += direction[i][1];
+            }
+            
+            x -= direction[i][0];
+            y -= direction[i][1];
+            
+            int[] startNew = {x, y};
+            if(dfs(maze, startNew, destination)) {
+                return true;
+            }
+        }
+        return false;
+        
+    }
+}
 
 maze II
 
