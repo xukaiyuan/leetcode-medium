@@ -27,3 +27,22 @@ public class Solution {
 		return add + minus;
 	}
 }
+
+class Solution {
+    private int count = 0;
+    public int findTargetSumWays(int[] nums, int S) {
+        calculate(nums, 0, S, 0);
+        return count;
+    }
+    
+    public void calculate(int[] nums, int i, int S, int sum) {
+        if(i == nums.length) {
+            if(sum == S) {
+                count += 1;
+            }
+        } else {
+            calculate(nums, i + 1, S, sum + nums[i]);
+            calculate(nums, i + 1, S, sum - nums[i]);
+        }
+    }
+}
